@@ -10,6 +10,7 @@ using Test.ServiceModel.Types;
 
 namespace ClientTest
 {
+    [TestFixture]
     class TestServiceTests
     {
         private string clientUrl = "http://test.servicestack.net";

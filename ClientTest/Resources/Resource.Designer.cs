@@ -26,8 +26,6 @@ namespace ClientTest
 		
 		public static void UpdateIdValues()
 		{
-			global::ServiceStack.Pcl.Android.Resource.String.ApplicationName = global::ClientTest.Resource.String.ApplicationName;
-			global::ServiceStack.Pcl.Android.Resource.String.Hello = global::ClientTest.Resource.String.Hello;
 			global::Xamarin.Android.NUnitLite.Resource.Id.OptionHostName = global::ClientTest.Resource.Id.OptionHostName;
 			global::Xamarin.Android.NUnitLite.Resource.Id.OptionPort = global::ClientTest.Resource.Id.OptionPort;
 			global::Xamarin.Android.NUnitLite.Resource.Id.OptionRemoteServer = global::ClientTest.Resource.Id.OptionRemoteServer;
