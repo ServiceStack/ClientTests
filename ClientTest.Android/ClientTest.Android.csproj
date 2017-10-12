@@ -53,6 +53,9 @@
     <Reference Include="nunit.framework, Version=3.8.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.8.1\lib\netstandard1.6\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="nunitlite, Version=3.8.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnitLite.3.8.1\lib\netstandard1.6\nunitlite.dll</HintPath>
+    </Reference>
     <Reference Include="ServiceStack.Client, Version=1.0.45.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.Client.Core.1.0.45\lib\netstandard1.6\ServiceStack.Client.dll</HintPath>
     </Reference>
