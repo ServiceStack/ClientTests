@@ -11,7 +11,8 @@ namespace ClientTest
         protected override void OnCreate(Bundle bundle)
         {
             // tests can be inside the main assembly
-            AddTest(Assembly.GetExecutingAssembly());
+            //AddTest(Assembly.GetExecutingAssembly());
+            AddTest(typeof(ClientTest.JsonServiceClientTests).Assembly);
             // or in any reference assemblies
             // AddTest (typeof (Your.Library.TestClass).Assembly);
 

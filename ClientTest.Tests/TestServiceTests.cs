@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Android.Util;
-using Java.Math;
-using Java.Util;
 using NUnit.Framework;
 using ServiceStack;
 using Test.ServiceModel;

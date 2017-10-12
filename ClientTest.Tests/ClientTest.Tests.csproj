@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NUnit" Version="3.8.1" />
+    <PackageReference Include="ServiceStack.Client.Core" Version="1.0.45" />
+    <PackageReference Include="ServiceStack.Interfaces.Core" Version="1.0.45" />
+  </ItemGroup>
+
+</Project>

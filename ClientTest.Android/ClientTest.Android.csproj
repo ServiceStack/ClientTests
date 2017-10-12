@@ -50,6 +50,9 @@
     </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
+    <Reference Include="nunit.framework, Version=3.8.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.8.1\lib\netstandard1.6\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="ServiceStack.Client, Version=1.0.45.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.Client.Core.1.0.45\lib\netstandard1.6\ServiceStack.Client.dll</HintPath>
     </Reference>
@@ -71,19 +74,14 @@
     <Reference Include="Xamarin.Android.NUnitLite" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DtoHelper.cs" />
-    <Compile Include="JsonServiceClientTests.cs" />
     <Compile Include="MainActivity.cs" />
-    <Compile Include="Test.dtos.cs" />
-    <Compile Include="TestAuthTests.cs" />
-    <Compile Include="TestInterfaceMarkerTests.cs" />
-    <Compile Include="TestInterfaceMarkerTestsAsync.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
@@ -95,6 +93,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClientTest.Tests\ClientTest.Tests.csproj">
+      <Project>{99f2b15f-3d3e-4aac-8533-c234dbcada75}</Project>
+      <Name>ClientTest.Tests</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
