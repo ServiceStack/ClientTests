@@ -16,12 +16,12 @@ namespace ClientTest
             Assert.That(actual.Decimal, Is.EqualTo(expected.Decimal));
             Assert.That(actual.Double, Is.EqualTo(expected.Double));
             Assert.That(actual.Float, Is.EqualTo(expected.Float).Within(0.0001));
-            Assert.That(actual.Guid, Is.EqualTo(expected.Guid.ToString().Replace("-", String.Empty)));
+            Assert.That(actual.Guid, Is.EqualTo(expected.Guid));
             Assert.That(actual.Id, Is.EqualTo(expected.Id));
             Assert.That(actual.Int, Is.EqualTo(expected.Int));
             Assert.That(actual.IntStringMap, Is.EquivalentTo(expected.IntStringMap));
-            Assert.That(actual.KeyValuePair.Key, Is.EquivalentTo(expected.KeyValuePair.Key));
-            Assert.That(actual.KeyValuePair.Value, Is.EquivalentTo(expected.KeyValuePair.Value));
+            Assert.That(actual.KeyValuePair.Key, Is.EqualTo(expected.KeyValuePair.Key));
+            Assert.That(actual.KeyValuePair.Value, Is.EqualTo(expected.KeyValuePair.Value));
             Assert.That(actual.Long, Is.EqualTo(expected.Long));
             Assert.That(actual.NullableDateTime, Is.EqualTo(expected.NullableDateTime).Within(TimeSpan.FromSeconds(1)));
             Assert.That(actual.NullableId, Is.EqualTo(expected.NullableId));
