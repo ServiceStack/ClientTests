@@ -7,7 +7,7 @@ namespace ClientTest
     [TestFixture]
     class TestInterfaceMarkerTests
     {
-        private string clientUrl = "http://test.servicestack.net";
+        private string clientUrl = Config.BaseUrl;
 
         [Test]
         public void test_Does_SendDefault_as_POST()

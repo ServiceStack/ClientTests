@@ -9,7 +9,7 @@ namespace ClientTest
     [TestFixture]
     public class JsonServiceClientTests
     {
-        private string clientUrl = "http://test.servicestack.net";
+        private string clientUrl = Config.BaseUrl;
 
         public void test_can_GET_HelloAll()
         {

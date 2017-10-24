@@ -9,7 +9,7 @@ namespace ClientTest
     {
         public JsonServiceClient CreateClient()
         {
-            return new JsonServiceClient("http://test.servicestack.net");
+            return new JsonServiceClient(Config.BaseUrl);
         }
 
         [Test]

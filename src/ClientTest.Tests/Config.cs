@@ -1,6 +1,6 @@
 using ServiceStack;
 
-namespace Tests
+namespace ClientTest
 {
     public class Config
     {

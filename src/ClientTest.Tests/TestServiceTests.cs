@@ -10,7 +10,7 @@ namespace ClientTest
     [TestFixture]
     class TestServiceTests
     {
-        private string clientUrl = "http://test.servicestack.net";
+        private string clientUrl = Config.BaseUrl;
 
         [Test]
         public void test_Can_GET_Hello()

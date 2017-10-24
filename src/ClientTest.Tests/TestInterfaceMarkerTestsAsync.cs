@@ -8,7 +8,7 @@ namespace ClientTest
     [TestFixture]
     public class TestInterfaceMarkerTestsAsync
     {
-        private string clientUrl = "http://test.servicestack.net";
+        private string clientUrl = Config.BaseUrl;
 
         [Test]
         [Ignore("TODO: fix async")]
