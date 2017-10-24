@@ -6,8 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="NUnit" Version="3.8.1" />
-    <PackageReference Include="ServiceStack.Client.Core" Version="1.0.45" />
-    <PackageReference Include="ServiceStack.Interfaces.Core" Version="1.0.45" />
+    <Reference Include="..\..\lib\netstandard2.0\ServiceStack.Text.dll" />
+    <Reference Include="..\..\lib\netstandard2.0\ServiceStack.Interfaces.dll" />
+    <Reference Include="ServiceStack.Client">
+      <HintPath>..\..\..\..\..\Users\TS\.nuget\packages\servicestack.client\5.0.0\lib\netstandard2.0\ServiceStack.Client.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
