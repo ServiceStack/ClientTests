@@ -1,20 +1,16 @@
 ﻿using NUnit.Framework;
 using ServiceStack;
-using Test.ServiceInterface;
 
-namespace ClientTest
+namespace ClientTest.Tests
 {
     [TestFixture]
     class TestInterfaceMarkerTests
     {
-        private string clientUrl = Config.BaseUrl;
-
         [Test]
-        public void test_Does_SendDefault_as_POST()
+        public void Does_SendDefault_as_POST()
         {
-            var client = new JsonServiceClient(clientUrl);
-
-            var request = new SendDefault{ Id = 1 };
+            var client = Config.CreateClient();
+            var request = new SendDefault {Id = 1};
             var response = client.Send(request);
 
             Assert.That(response.Id, Is.EqualTo(1));
@@ -23,21 +19,21 @@ namespace ClientTest
         }
 
         [Test]
-        public void test_Does_SendRestGet_as_GET_using_Predefined_Route()
+        public void Does_SendRestGet_as_GET_using_User_Defined_Route()
         {
-            var client = new JsonServiceClient(clientUrl);
-            var request = new SendRestGet() { Id = 1 };
+            var client = Config.CreateClient();
+            var request = new SendRestGet {Id = 1};
 
             var response = client.Send(request);
             Assert.That(response.Id, Is.EqualTo(1));
             Assert.That(response.RequestMethod, Is.EqualTo(HttpMethods.Get));
-            Assert.That(response.PathInfo, Is.EqualTo("/json/reply/SendRestGet"));
+            Assert.That(response.PathInfo, Is.EqualTo("/sendrestget/1"));
         }
 
         [Test]
-        public void test_Does_SendGet_as_GET()
+        public void Does_SendGet_as_GET()
         {
-            var client = new JsonServiceClient(clientUrl);
+            var client = Config.CreateClient();
             var request = new SendGet {Id = 1};
             var response = client.Send(request);
 
@@ -47,10 +43,10 @@ namespace ClientTest
         }
 
         [Test]
-        public void test_Does_SendPost_as_POST()
+        public void Does_SendPost_as_POST()
         {
-            var client = new JsonServiceClient(clientUrl);
-            var request = new SendPost { Id = 1 };
+            var client = Config.CreateClient();
+            var request = new SendPost {Id = 1};
             var response = client.Send(request);
             Assert.That(response.Id, Is.EqualTo(1));
             Assert.That(response.RequestMethod, Is.EqualTo(HttpMethods.Post));
@@ -58,10 +54,10 @@ namespace ClientTest
         }
 
         [Test]
-        public void test_Does_SendPut_as_PUT()
+        public void Does_SendPut_as_PUT()
         {
-            var client = new JsonServiceClient(clientUrl);
-            var request = new SendPut { Id = 1};
+            var client = Config.CreateClient();
+            var request = new SendPut {Id = 1};
             var response = client.Send(request);
             Assert.That(response.Id, Is.EqualTo(1));
             Assert.That(response.RequestMethod, Is.EqualTo(HttpMethods.Put));

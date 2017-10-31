@@ -1,23 +1,17 @@
 ﻿using NUnit.Framework;
 using ServiceStack;
-using Test.ServiceInterface;
 
-namespace ClientTest
+namespace ClientTest.Tests
 {
     [TestFixture]
     public class TestAuthTests
     {
-        public JsonServiceClient CreateClient()
-        {
-            return new JsonServiceClient(Config.BaseUrl);
-        }
-
         [Test]
-        public void test_AuthRequired_returns_401()
+        public void AuthRequired_returns_401()
         {
             try
             {
-                var client = CreateClient();
+                var client = Config.CreateClient();
                 client.Get(new TestAuth());
                 Assert.Fail("should throw");
             }
@@ -29,9 +23,9 @@ namespace ClientTest
         }
 
         [Test]
-        public void test_does_send_BasicAuthHeaders()
+        public void Does_send_BasicAuthHeaders()
         {
-            var client = CreateClient();
+            var client = Config.CreateClient();
             client.SetCredentials("test", "test");
             //client.AlwaysSendBasicAuthHeaders = true;
 
@@ -44,9 +38,9 @@ namespace ClientTest
         }
 
         [Test]
-        public void test_does_transparently_send_BasicAuthHeader_on_401_response()
+        public void Does_transparently_send_BasicAuthHeader_on_401_response()
         {
-            var client = CreateClient();
+            var client = Config.CreateClient();
             client.SetCredentials("test", "test");
 
             var response = client.Get(new TestAuth());
@@ -58,9 +52,9 @@ namespace ClientTest
         }
 
         [Test]
-        public void test_can_authenticate_with_CredentialsAuth()
+        public void Can_authenticate_with_CredentialsAuth()
         {
-            var client = CreateClient();
+            var client = Config.CreateClient();
 
             var request = new Authenticate {provider = "credentials", UserName = "test", Password = "test"};
 

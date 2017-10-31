@@ -7,7 +7,7 @@ using NUnitLite;
 
 //using Xamarin.Android.NUnitLite;
 
-namespace ClientTest
+namespace ClientTest.Android
 {
     [Activity(Label = "ClientTest", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
@@ -20,7 +20,7 @@ namespace ClientTest
             // or in any reference assemblies
             // AddTest (typeof (Your.Library.TestClass).Assembly);
             var writer = new ExtendedTextWrapper(Console.Out);
-            var result = new AutoRun(typeof(ClientTest.JsonServiceClientTests).Assembly).Execute(new string[0], writer, Console.In);
+            var result = new AutoRun(typeof(ClientTest.Tests.JsonServiceClientTests).Assembly).Execute(new string[0], writer, Console.In);
 
 
 

@@ -24,7 +24,7 @@ namespace ClientTest.iOS
             // or in any reference assemblies
             // AddTest (typeof (Your.Library.TestClass).Assembly);
             var writer = new ExtendedTextWrapper(Console.Out);
-            var result = new AutoRun(typeof(ClientTest.JsonServiceClientTests).Assembly).Execute(new string[0], writer, Console.In);
+            var result = new AutoRun(typeof(ClientTest.Tests.JsonServiceClientTests).Assembly).Execute(new string[0], writer, Console.In);
 
         }
     }

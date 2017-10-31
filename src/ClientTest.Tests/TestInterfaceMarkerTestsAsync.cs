@@ -1,22 +1,18 @@
 ﻿using System.Threading.Tasks;
 using NUnit.Framework;
 using ServiceStack;
-using Test.ServiceInterface;
 
-namespace ClientTest
+namespace ClientTest.Tests
 {
     [TestFixture]
     public class TestInterfaceMarkerTestsAsync
     {
-        private string clientUrl = Config.BaseUrl;
-
         [Test]
-        [Ignore("TODO: fix async")]
-        public async Task test_Does_SendDefault_as_POST()
+        public async Task Does_SendDefault_as_POST()
         {
-            var client = new JsonServiceClient(clientUrl);
+            var client = Config.CreateClient();
 
-            var request = new SendDefault() {Id = 1};
+            var request = new SendDefault {Id = 1};
 
             var response = await client.SendAsync<SendVerbResponse>(request);
 
@@ -25,26 +21,23 @@ namespace ClientTest
             Assert.That(response.PathInfo, Is.EqualTo("/json/reply/SendDefault"));
         }
 
-
         [Test]
-        [Ignore("TODO: fix async")]
-        public async Task test_Does_SendRestGet_as_GET_using_Predefined_Route()
+        public async Task Does_SendRestGet_as_GET_using_Predefined_Route()
         {
-            var client = new JsonServiceClient(clientUrl);
-            var request = new SendRestGet() {Id = 1};
+            var client = Config.CreateClient();
+            var request = new SendRestGet {Id = 1};
 
             var response = await client.SendAsync(request);
 
             Assert.That(response.Id, Is.EqualTo(1));
             Assert.That(response.RequestMethod, Is.EqualTo(HttpMethods.Get));
-            Assert.That(response.PathInfo, Is.EqualTo("/json/reply/SendRestGet"));
+            Assert.That(response.PathInfo, Is.EqualTo("/sendrestget/1"));
         }
 
         [Test]
-        [Ignore("TODO: fix async")]
-        public async Task test_Does_SendGet_as_GET()
+        public async Task Does_SendGet_as_GET()
         {
-            var client = new JsonServiceClient(clientUrl);
+            var client = Config.CreateClient();
             var request = new SendGet {Id = 1};
             var response = await client.SendAsync(request);
 
@@ -54,10 +47,9 @@ namespace ClientTest
         }
 
         [Test]
-        [Ignore("TODO: fix async")]
-        public async Task test_Does_SendPost_as_POST()
+        public async Task Does_SendPost_as_POST()
         {
-            var client = new JsonServiceClient(clientUrl);
+            var client = Config.CreateClient();
             var request = new SendPost {Id = 1};
             var response = await client.SendAsync(request);
 
@@ -67,10 +59,9 @@ namespace ClientTest
         }
 
         [Test]
-        [Ignore("TODO: fix async")]
-        public async Task test_Does_SendPut_as_PUT()
+        public async Task Does_SendPut_as_PUT()
         {
-            var client = new JsonServiceClient(clientUrl);
+            var client = Config.CreateClient();
             var request = new SendPut {Id = 1};
             var response = await client.SendAsync(request);
             Assert.That(response.Id, Is.EqualTo(1));

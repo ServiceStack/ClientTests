@@ -1,32 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using NUnit.Framework;
 using ServiceStack;
-using Test.ServiceModel;
-using Test.ServiceModel.Types;
 
-namespace ClientTest
+namespace ClientTest.Tests
 {
     [TestFixture]
     class TestServiceTests
     {
-        private string clientUrl = Config.BaseUrl;
-
         [Test]
-        public void test_Can_GET_Hello()
+        public void Can_GET_Hello()
         {
-            var client = new JsonServiceClient(clientUrl);
-            var request = new Hello() {Name = "World"};
+            var client = Config.CreateClient();
+            var request = new Hello {Name = "World"};
 
-            var response = client.Get<HelloResponse>(request);
+            var response = client.Get(request);
 
             Assert.That("Hello, World!", Is.EqualTo(response.Result));
         }
 
         [Test]
-        public void test_does_fire_Request_and_Response_Filters()
+        public void Does_fire_Request_and_Response_Filters()
         {
-            var client = new JsonServiceClient(clientUrl);
+            var client = Config.CreateClient();
             var events = new List<string>();
 
             JsonServiceClient.GlobalRequestFilter = webRequest => events.Add("GlobalRequestFilter");
@@ -38,67 +35,66 @@ namespace ClientTest
 
             var request = new Hello {Name = "World"};
 
-            var response = client.Get<HelloResponse>(request);
+            var response = client.Get(request);
 
             Assert.That(response.Result, Is.EqualTo("Hello, World!"));
 
-            Assert.That(events,
-                Is.EquivalentTo(new string[]
-                    {"RequestFilter", "GlobalRequestFilter", "ResponseFilter", "GlobalResponseFilter"}));
+            Assert.That(events, Is.EquivalentTo(new[]
+                {"RequestFilter", "GlobalRequestFilter", "ResponseFilter", "GlobalResponseFilter"}));
+
+            JsonServiceClient.GlobalRequestFilter = null;
+            JsonServiceClient.GlobalResponseFilter = null;
         }
 
         [Test]
-        public void test_Can_GET_Hello_with_CustomPath()
+        public void Can_GET_Hello_with_CustomPath()
         {
-            var client = new JsonServiceClient(clientUrl);
+            var client = Config.CreateClient();
             var response = client.Get<HelloResponse>("/hello/World");
 
             Assert.That(response.Result, Is.EqualTo("Hello, World!"));
         }
 
         [Test]
-        public void test_Can_POST_Hello_with_CustomPath()
+        public void Can_POST_Hello_with_CustomPath()
         {
-            var client = new JsonServiceClient(clientUrl);
+            var client = Config.CreateClient();
             var request = new Hello {Name = "World"};
 
-            var response = client.Post<HelloResponse>("/hello");
+            var response = client.Post<HelloResponse>("/hello", request);
 
             Assert.That(response.Result, Is.EqualTo("Hello, World!"));
         }
 
         [Test]
-        public void test_Can_GET_Hello_with_CustomPath_raw()
+        public void Can_GET_Hello_with_CustomPath_raw()
         {
-            var client = new JsonServiceClient(clientUrl);
+            var client = Config.CreateClient();
             var response = client.Get("/hello/World");
             var json = response.ReadToEnd();
 
             Assert.That(json, Is.EqualTo("{\"result\":\"Hello, World!\"}"));
         }
 
-        /*       [Test]
-               public void test_Can_POST_Hello_with_CustomPath_raw()
-               {
-                   var client = new JsonServiceClient(clientUrl);
-                   var response = client.Post("/hello", "Name=World".ToUtf8Bytes());
-                   var json = response.ReadToEnd();
-
-                   Assert.That(json, Is.EqualTo("{\"result\":\"Hello, World!\"}"));
-               }
-       */
-
-        private HelloAllTypes CreateHelloAllTypes() => new HelloAllTypes
+        [Test]
+        public void Can_POST_Hello_with_CustomPath_raw()
         {
+            var client = Config.CreateClient();
+            var response = client.Post<Stream>("/hello", "{\"Name\":\"World\"}".ToUtf8Bytes());
+            var json = response.ReadFully().FromUtf8Bytes();
+
+            Assert.That(json, Is.EqualTo("{\"result\":\"Hello, World!\"}"));
+        }
+
+        
+        private HelloAllTypes CreateHelloAllTypes() => new HelloAllTypes {
             Name = "name",
             AllTypes = CreateAllTypes(),
             AllCollectionTypes = CreateAllCollectionTypes()
         };
 
-
         AllTypes CreateAllTypes() =>
-            new AllTypes
-            {
+            new AllTypes {
                 Id = 1,
                 Char = 'c',
                 Byte = 2,
@@ -118,8 +114,7 @@ namespace ClientTest
                 Guid = new Guid(),
                 StringList = new List<string>() {"A", "B", "C"},
                 StringArray = new string[] {"D", "E", "F"},
-                StringMap = new Dictionary<string, string>
-                {
+                StringMap = new Dictionary<string, string> {
                     {"A", "D"},
                     {"B", "E"},
                     {"C", "F"}
@@ -129,8 +124,7 @@ namespace ClientTest
             };
 
         AllCollectionTypes CreateAllCollectionTypes() =>
-            new AllCollectionTypes
-            {
+            new AllCollectionTypes {
                 IntArray = new[] {1, 2, 3,},
                 IntList = new List<int> {4, 5, 6},
                 StringArray = new[] {"A", "B", "C"},
@@ -139,12 +133,10 @@ namespace ClientTest
                 PocoList = new List<Poco> {CreatePoco("pocoList")},
                 PocoLookup =
                     new Dictionary<string, List<Poco>> {{"A", new List<Poco>() {CreatePoco("B"), CreatePoco("C")}}},
-                PocoLookupMap = new Dictionary<string, List<Dictionary<string, Poco>>>()
-                {
+                PocoLookupMap = new Dictionary<string, List<Dictionary<string, Poco>>>() {
                     {
                         "A",
-                        new List<Dictionary<string, Poco>>
-                        {
+                        new List<Dictionary<string, Poco>> {
                             new Dictionary<string, Poco> {{"B", CreatePoco("C")}},
                             new Dictionary<string, Poco> {{"D", CreatePoco("E")}},
                         }
@@ -157,87 +149,67 @@ namespace ClientTest
         void AssertHelloAllTypesResponse(HelloAllTypesResponse actual, HelloAllTypes expected)
         {
             Assert.IsNotNull(actual);
-            DtoHelper.AssertAllTypes(actual.AllTypes, expected.AllTypes);
-            DtoHelper.AssertAllCollectionTypes(actual.AllCollectionTypes, expected.AllCollectionTypes);
+            TestUtils.AssertAllTypes(actual.AllTypes, expected.AllTypes);
+            TestUtils.AssertAllCollectionTypes(actual.AllCollectionTypes, expected.AllCollectionTypes);
         }
 
         [Test]
-        public void test_Can_POST_test_HelloAllTypes()
+        public void Can_POST_HelloAllTypes()
         {
-            var client = new JsonServiceClient(clientUrl);
+            var client = Config.CreateClient();
             var request = CreateHelloAllTypes();
-            var response = client.Post<HelloAllTypesResponse>(request);
+            var response = client.Post(request);
             AssertHelloAllTypesResponse(response, request);
         }
 
         [Test]
-        public void test_Can_PUT_test_HelloAllTypes()
+        public void Can_PUT_HelloAllTypes()
         {
-            var client = new JsonServiceClient(clientUrl);
+            var client = Config.CreateClient();
             var request = CreateHelloAllTypes();
-            var response = client.Put<HelloAllTypesResponse>(request);
+            var response = client.Put(request);
             AssertHelloAllTypesResponse(response, request);
         }
 
- /*       public void test_Can_Serailize_AllTypes()
+        [Test]
+        public void Can_Serailize_AllTypes()
         {
-            var client = new JsonServiceClient(clientUrl);
-            var json = client.gson.toJson(CreateAllTypes());
-        }*/
-
-/*        public void test_Does_handle_404_Error()
-        {
-            var client = new JsonServiceClient(clientUrl);
-
-            var globalError:
-            Exception ? = null
-            var localError:
-            Exception ? = null
-
-            var thrownError:
-            WebServiceException ? = null
-            
-
-            JsonServiceClient.GlobalExceptionFilter = ExceptionFilter {
-                res, ex->globalError = ex
-            }
-
-            testClient.ExceptionFilter = ExceptionFilter {
-                res, ex->localError = ex
-            }
-
-            val request = ThrowType()
-            request.Type = "NotFound"
-            request.message = "not here"
-
-            try
-            {
-                val response = testClient.put<ThrowTypeResponse>(request)
-            }
-            catch (webEx:
-            WebServiceException) {
-                thrownError = webEx
-            }
-
-            Assert.assertNotNull(globalError)
-            Assert.assertNotNull(localError)
-            Assert.assertNotNull(thrownError)
-
-            val status = thrownError!!.responseStatus
-
-            Assert.assertEquals("NotFound", status.errorCode)
-            Assert.assertEquals("not here", status.message)
-            Assert.assertNotNull(status.stackTrace)
+            var client = Config.CreateClient();
+            var json = CreateAllTypes().ToJson();
         }
-        */
-        public void test_Does_handle_ValidationException()
+
+        [Test]
+        public void Does_handle_404_Error()
         {
-            var client = new JsonServiceClient(clientUrl);
-            var request = new ThrowValidation() { Email = "invalidemail" };
+            var client = Config.CreateClient();
+
+            var request = new ThrowType {
+                Type = "NotFound",
+                Message = "not here",
+            };
 
             try
             {
-                client.Post<ThrowValidationResponse>(request);
+                var response = client.Put(request);
+            }
+            catch (WebServiceException ex)
+            {
+                var status = ex.GetResponseStatus();
+                Assert.That(status.ErrorCode, Is.EqualTo("NotFound"));
+                Assert.That(status.Message, Is.EqualTo("not here"));
+                Assert.That(status.StackTrace, Is.Not.Null);
+            }
+        }
+
+        [Test]
+        public void Does_handle_ValidationException()
+        {
+            var client = Config.CreateClient();
+            var request = new ThrowValidation {Email = "invalidemail"};
+
+            try
+            {
+                client.Post(request);
                 Assert.Fail("Should throw");
             }
             catch (WebServiceException webEx)
@@ -262,15 +234,15 @@ namespace ClientTest
                 Assert.That(status.Errors[2].Message, Is.EqualTo("'Email' is not a valid email address."));
                 Assert.That(status.Errors[2].FieldName, Is.EqualTo("Email"));
             }
-
         }
 
-        public void test_Can_POST_valid_ThrowValidation_request()
+        [Test]
+        public void Can_POST_valid_ThrowValidation_request()
         {
-            var client = new JsonServiceClient(clientUrl);
-            var request = new ThrowValidation() {Age = 21, Required = "foo", Email = "my@gmail.com"};
+            var client = Config.CreateClient();
+            var request = new ThrowValidation {Age = 21, Required = "foo", Email = "my@gmail.com"};
 
-            var response = client.Post<ThrowValidationResponse>(request);
+            var response = client.Post(request);
 
             Assert.IsNotNull(response);
             Assert.That(response.Age, Is.EqualTo(request.Age));
@@ -278,68 +250,64 @@ namespace ClientTest
             Assert.That(response.Email, Is.EqualTo(request.Email));
         }
 
-/*        public void test_does_handle_auth_failure()
+        [Test]
+        public void Does_handle_auth_failure()
         {
-            var techStacksClient = new JsonServiceClient("http://techstacks.io/");
-            int errorCode = 0;
+            var client = Config.CreateClient();
             try
             {
-                var request = new LockTechStack();
-                request.TechnologyStackId = 6;
-                var res = techStacksClient.Post(request)
-                Assert.Fail("Should throw")
+                var request = new RequiresAdmin();
+                var res = client.Post(request);
+                Assert.Fail("Should throw");
             }
-            catch (WebServiceException ex) {
+            catch (WebServiceException ex)
+            {
                 //private StatusCode has correct code, response status is null due to empty response body.
-                errorCode = ex.StatusCode;
+                Assert.That(ex.StatusCode, Is.EqualTo(401));
             }
-
-            Assert.That(errorCode, Is.EqualTo(401));
         }
-        public void test_Can_send_ReturnVoid()
-        {
-            var client = new JsonServiceClient(clientUrl);
-            var sentMethods = new List<String>();
-            client.RequestFilter = ConnectionFilter {
-                conn->sentMethods.add(conn.requestMethod)
-            }
-
-            val request = HelloReturnVoid()
-            request.id = 1
-
-            client.send(request)
-            Assert.assertEquals(HttpMethods.Post, sentMethods[sentMethods.size - 1])
-            request.id = 2
-            client.get(request)
-            Assert.assertEquals(HttpMethods.Get, sentMethods[sentMethods.size - 1])
-            request.id = 3
-            client.post(request)
-            Assert.assertEquals(HttpMethods.Post, sentMethods[sentMethods.size - 1])
-            request.id = 4
-            client.put(request)
-            Assert.assertEquals(HttpMethods.Put, sentMethods[sentMethods.size - 1])
-            request.id = 5
-            client.delete(request)
-            Assert.assertEquals(HttpMethods.Delete, sentMethods[sentMethods.size - 1])
-        }
-        */
 
         [Test]
-        public void test_Can_get_response_as_Raw_String()
+        public void Can_send_ReturnVoid()
         {
-            var client = new JsonServiceClient(clientUrl);
+            var sentMethods = new List<string>();
+            var client = new JsonServiceClient(Config.BaseUrl) {
+                RequestFilter = req => sentMethods.Add(req.Method)
+            };
+
+            var request = new SendReturnVoid {Id = 1};
+
+            client.Send(request);
+            Assert.That(sentMethods[sentMethods.Count - 1], Is.EqualTo(HttpMethods.Post));
+            request.Id = 2;
+            client.Get(request);
+            Assert.That(sentMethods[sentMethods.Count - 1], Is.EqualTo(HttpMethods.Get));
+            request.Id = 3;
+            client.Post(request);
+            Assert.That(sentMethods[sentMethods.Count - 1], Is.EqualTo(HttpMethods.Post));
+            request.Id = 4;
+            client.Put(request);
+            Assert.That(sentMethods[sentMethods.Count - 1], Is.EqualTo(HttpMethods.Put));
+            request.Id = 5;
+            client.Delete(request);
+            Assert.That(sentMethods[sentMethods.Count - 1], Is.EqualTo(HttpMethods.Delete));
+        }
+
+        [Test]
+        public void Can_get_response_as_Raw_String()
+        {
+            var client = Config.CreateClient();
             var request = new HelloString {Name = "World"};
             var response = client.Get(request);
             Assert.That(response, Is.EqualTo("World"));
         }
 
         [Test]
-        public void test_Can_get_response_as_Raw_Bytes()
+        public void Can_get_response_as_Raw_Bytes()
         {
-            var client = new JsonServiceClient(clientUrl);
+            var client = Config.CreateClient();
             var response = client.Get<byte[]>("/json/reply/HelloString?Name=World");
             Assert.That(response.FromUtf8Bytes(), Is.EqualTo("World"));
         }
-
-    } //Log.Instance = new AndroidLogProvider("ZZZ");
+    }
 }

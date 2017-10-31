@@ -1,55 +1,51 @@
 ﻿using System;
 using NUnit.Framework;
 using ServiceStack;
-using Test.ServiceInterface;
-using Test.ServiceModel;
 
-namespace ClientTest
+namespace ClientTest.Tests
 {
     [TestFixture]
     public class JsonServiceClientTests
     {
-        private string clientUrl = Config.BaseUrl;
-
-        public void test_can_GET_HelloAll()
+        [Test]
+        public void Can_GET_HelloAll()
         {
-            var client = new JsonServiceClient(clientUrl);
+            var client = Config.CreateClient();
 
-            var request = new Hello() { Name = "World" };
+            var request = new Hello { Name = "World" };
 
             var response = client.Get(request);
 
             Assert.That(response.Result, Is.EqualTo("Hello, World!"));
         }
-
- /*       public void test_can_use_request_filter()
-        {
-            var client = new JsonServiceClient(clientUrl);
-
-            //var passTest = arrayOf(false)
-
-            client.RequestFilter = new ConnectionFilter
-            {
-                passTest[0] = true
-            };
-
-            var request = new Hello() { Name = "World" };
-
-            var response = client.Get(request);
-
-            Assert.That(response.Result, Is.EqualTo("Hello, World!"));
-            Assert.That(passTest[0], Is.True);
-        }
-        */
 
         [Test]
-        public void test_does_process_missing_service_correctly()
+        public void Can_use_request_filter()
         {
-            var client = new JsonServiceClient(clientUrl);
+            var invoked = false;
+
+            var client = new JsonServiceClient(Config.BaseUrl) {
+                RequestFilter = req => invoked = true
+            };
+
+            var request = new Hello { Name = "World" };
+
+            var response = client.Get(request);
+
+            Assert.That(response.Result, Is.EqualTo("Hello, World!"));
+            Assert.That(invoked);
+        }
+
+        class NonExistingService {}
+    
+        [Test]
+        public void Does_process_missing_service_correctly()
+        {
+            var client = Config.CreateClient();
 
             try
             {
-                client.Get(new EchoTypes());
+                client.Get(new NonExistingService());
                 Assert.Fail("Should throw");
             }
             catch (WebServiceException ex)
@@ -60,9 +56,9 @@ namespace ClientTest
         }
 
         [Test]
-        public void test_can_serialize_dates_correctly_via_get_request()
+        public void Can_serialize_dates_correctly_via_get_request()
         {
-            var client = new JsonServiceClient(clientUrl);
+            var client = Config.CreateClient();
 
             var request = new EchoTypes { DateTime = new DateTime(2015, 1, 1) };
 
