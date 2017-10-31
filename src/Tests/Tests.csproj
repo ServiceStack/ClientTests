@@ -10,10 +10,6 @@
         <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
         <PackageReference Include="NUnit" Version="3.8.1" />
 
-        <PackageReference Include="ServiceStack.Text" Version="5.*"/>
-        <PackageReference Include="ServiceStack.Interfaces" Version="5.*"/>
-        <PackageReference Include="ServiceStack.Client" Version="5.*"/>
-
         <!--<ProjectReference Include="..\..\..\ServiceStack.Text\src\ServiceStack.Text\ServiceStack.Text.csproj" />-->
         <!--<ProjectReference Include="..\..\..\ServiceStack\src\ServiceStack.Interfaces\ServiceStack.Interfaces.csproj" />-->
         <!--<ProjectReference Include="..\..\..\ServiceStack\src\ServiceStack.Client\ServiceStack.Client.csproj" />-->
@@ -23,12 +19,18 @@
         <DefineConstants>$(DefineConstants);NET45</DefineConstants>
     </PropertyGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+        <Reference Include="..\..\lib\net45\ServiceStack.Text.dll" />
+        <Reference Include="..\..\lib\net45\ServiceStack.Interfaces.dll" />
+        <Reference Include="..\..\lib\net45\ServiceStack.Client.dll" />
     </ItemGroup>
 
     <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
         <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
     </PropertyGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
+        <Reference Include="..\..\lib\netstandard2.0\ServiceStack.Text.dll" />
+        <Reference Include="..\..\lib\netstandard2.0\ServiceStack.Interfaces.dll" />
+        <Reference Include="..\..\lib\netstandard2.0\ServiceStack.Client.dll" />
     </ItemGroup>
 
 </Project>
