@@ -172,6 +172,21 @@
             <param name="requestDto"></param>
             <returns>Response DTO; non-null will short-circuit execution and return that response</returns>
         </member>
+        <member name="M:ServiceStack.Auth.AuthenticateService.GetAuthProviders(System.String)">
+            <summary>
+            Get AuthProviders Registered in AuthFeature Plugin.
+            </summary>
+            <param name="provider">specific provider, or null for all providers</param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:ServiceStack.Auth.AuthenticateService.GetAuthProvider(System.String)">
+            <summary>
+            Get specific AuthProvider
+            </summary>
+            <param name="provider"></param>
+            <returns></returns>
+        </member>
         <member name="M:ServiceStack.Auth.AuthenticateService.Authenticate(ServiceStack.Authenticate)">
             <summary>
             Public API entry point to authenticate via code
@@ -4645,13 +4660,11 @@
             Provide for quick lookups based on hashes that can be determined from a request url
             </summary>
         </member>
-        <member name="M:ServiceStack.Host.RestPath.IsMatch(System.String,System.String[])">
+        <member name="M:ServiceStack.Host.RestPath.IsMatch(ServiceStack.Web.IHttpRequest)">
             <summary>
             For performance withPathInfoParts should already be a lower case string
             to minimize redundant matching operations.
             </summary>
-            <param name="httpMethod"></param>
-            <param name="withPathInfoParts"></param>
             <returns></returns>
         </member>
         <member name="M:ServiceStack.Host.RestPath.IsMatch(System.String,System.String[],System.Int32@)">
@@ -4662,6 +4675,15 @@
             <param name="httpMethod"></param>
             <param name="withPathInfoParts"></param>
             <param name="wildcardMatchCount"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ServiceStack.Host.ServiceController.GetRestPathForRequest(System.String,System.String,ServiceStack.Web.IHttpRequest)">
+            <summary>
+            Get Best Matching Route. 
+            </summary>
+            <param name="httpMethod"></param>
+            <param name="pathInfo"></param>
+            <param name="httpReq">If not null, ensures any Route matches any [Route(Matches)]</param>
             <returns></returns>
         </member>
         <member name="M:ServiceStack.Host.ServiceController.ExecuteMessage(ServiceStack.Messaging.IMessage)">
