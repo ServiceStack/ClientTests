@@ -7,7 +7,7 @@
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "ServiceStack.Client/4.5.178": {
+      "ServiceStack.Client/1.0.0": {
         "dependencies": {
           "Microsoft.Extensions.Primitives": "2.0.0",
           "NETStandard.Library": "2.0.0",
@@ -1125,7 +1125,7 @@
     }
   },
   "libraries": {
-    "ServiceStack.Client/4.5.178": {
+    "ServiceStack.Client/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
