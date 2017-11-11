@@ -14,7 +14,7 @@ namespace ClientTest.Tests
 
             var request = new SendDefault {Id = 1};
 
-            var response = await client.SendAsync<SendVerbResponse>(request);
+            var response = await client.SendAsync<SendVerbResponse>(request).ConfigureAwait(false);
 
             Assert.That(response.Id, Is.EqualTo(1));
             Assert.That(response.RequestMethod, Is.EqualTo(HttpMethods.Post));
@@ -27,7 +27,7 @@ namespace ClientTest.Tests
             var client = Config.CreateClient();
             var request = new SendRestGet {Id = 1};
 
-            var response = await client.SendAsync(request);
+            var response = await client.SendAsync(request).ConfigureAwait(false);
 
             Assert.That(response.Id, Is.EqualTo(1));
             Assert.That(response.RequestMethod, Is.EqualTo(HttpMethods.Get));
@@ -39,7 +39,7 @@ namespace ClientTest.Tests
         {
             var client = Config.CreateClient();
             var request = new SendGet {Id = 1};
-            var response = await client.SendAsync(request);
+            var response = await client.SendAsync(request).ConfigureAwait(false);
 
             Assert.That(response.Id, Is.EqualTo(1));
             Assert.That(response.RequestMethod, Is.EqualTo(HttpMethods.Get));
@@ -51,7 +51,7 @@ namespace ClientTest.Tests
         {
             var client = Config.CreateClient();
             var request = new SendPost {Id = 1};
-            var response = await client.SendAsync(request);
+            var response = await client.SendAsync(request).ConfigureAwait(false);
 
             Assert.That(response.Id, Is.EqualTo(1));
             Assert.That(response.RequestMethod, Is.EqualTo(HttpMethods.Post));
@@ -63,7 +63,7 @@ namespace ClientTest.Tests
         {
             var client = Config.CreateClient();
             var request = new SendPut {Id = 1};
-            var response = await client.SendAsync(request);
+            var response = await client.SendAsync(request).ConfigureAwait(false);
             Assert.That(response.Id, Is.EqualTo(1));
             Assert.That(response.RequestMethod, Is.EqualTo(HttpMethods.Put));
             Assert.That(response.PathInfo, Is.EqualTo("/json/reply/SendPut"));
