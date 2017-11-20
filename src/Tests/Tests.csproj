@@ -1,36 +1,37 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-    <PropertyGroup>
-        <TargetFrameworks>net45;netcoreapp2.0</TargetFrameworks>
-        <OutputType>Library</OutputType>
-        <AssemblyName>Tests</AssemblyName>
-        <PackageId>Tests</PackageId>
-    </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0-preview-20171012-09" />
-        <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
-        <PackageReference Include="NUnit" Version="3.8.1" />
+  <PropertyGroup>
+    <TargetFrameworks>net45;netcoreapp2.0</TargetFrameworks>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Tests</AssemblyName>
+    <PackageId>Tests</PackageId>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
+    <PackageReference Include="NUnit" Version="3.9.0" />
 
-        <!--<ProjectReference Include="..\..\..\ServiceStack.Text\src\ServiceStack.Text\ServiceStack.Text.csproj" />-->
-        <!--<ProjectReference Include="..\..\..\ServiceStack\src\ServiceStack.Interfaces\ServiceStack.Interfaces.csproj" />-->
-        <!--<ProjectReference Include="..\..\..\ServiceStack\src\ServiceStack.Client\ServiceStack.Client.csproj" />-->
-    </ItemGroup>
+    <!--<ProjectReference Include="..\..\..\ServiceStack.Text\src\ServiceStack.Text\ServiceStack.Text.csproj" />-->
+    <!--<ProjectReference Include="..\..\..\ServiceStack\src\ServiceStack.Interfaces\ServiceStack.Interfaces.csproj" />-->
+    <!--<ProjectReference Include="..\..\..\ServiceStack\src\ServiceStack.Client\ServiceStack.Client.csproj" />-->
+  </ItemGroup>
 
-    <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' ">
-        <DefineConstants>$(DefineConstants);NET45</DefineConstants>
-    </PropertyGroup>
-    <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
-        <Reference Include="..\..\lib\net45\ServiceStack.Text.dll" />
-        <Reference Include="..\..\lib\net45\ServiceStack.Interfaces.dll" />
-        <Reference Include="..\..\lib\net45\ServiceStack.Client.dll" />
-    </ItemGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <DefineConstants>$(DefineConstants);NET45</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <Reference Include="..\..\lib\net45\ServiceStack.Text.dll" />
+    <Reference Include="..\..\lib\net45\ServiceStack.Interfaces.dll" />
+    <Reference Include="..\..\lib\net45\ServiceStack.Client.dll" />
+  </ItemGroup>
 
-    <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
-        <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
-    </PropertyGroup>
-    <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
-        <Reference Include="..\..\lib\netstandard2.0\ServiceStack.Text.dll" />
-        <Reference Include="..\..\lib\netstandard2.0\ServiceStack.Interfaces.dll" />
-        <Reference Include="..\..\lib\netstandard2.0\ServiceStack.Client.dll" />
-    </ItemGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
+    <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
+    <PackageReference Include="Microsoft.Extensions.Primitives" Version="2.0.0" />
+    <Reference Include="..\..\lib\netstandard2.0\ServiceStack.Text.dll" />
+    <Reference Include="..\..\lib\netstandard2.0\ServiceStack.Interfaces.dll" />
+    <Reference Include="..\..\lib\netstandard2.0\ServiceStack.Client.dll" />
+  </ItemGroup>
 
 </Project>
