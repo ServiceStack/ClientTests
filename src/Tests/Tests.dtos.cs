@@ -1,8 +1,8 @@
 /* Options:
-Date: 2017-10-19 21:51:03
-Version: 4.00
+Date: 2017-11-23 00:31:10
+Version: 5.00
 Tip: To override a DTO option, remove "//" prefix before updating
-BaseUrl: http://localhost:5000
+BaseUrl: http://client-tests.servicestack.net
 
 GlobalNamespace: Tests
 //MakePartial: True
@@ -35,6 +35,73 @@ using Tests;
 
 namespace Tests
 {
+
+    public partial class GetSecure
+        : IReturn<GetSecureResponse>
+    {
+        public virtual string Name { get; set; }
+    }
+
+    public partial class GetSecureResponse
+    {
+        public virtual string Result { get; set; }
+    }
+
+    public partial class HelloAuthenticated
+        : IReturn<HelloAuthenticatedResponse>, IHasSessionId, IHasVersion
+    {
+        public virtual string SessionId { get; set; }
+        public virtual int Version { get; set; }
+    }
+
+    public partial class HelloAuthenticatedResponse
+    {
+        public virtual int Version { get; set; }
+        public virtual string SessionId { get; set; }
+        public virtual string UserName { get; set; }
+        public virtual string Email { get; set; }
+        public virtual bool IsAuthenticated { get; set; }
+        public virtual ResponseStatus ResponseStatus { get; set; }
+    }
+
+    public partial class HelloAuthSecure
+        : IReturn<HelloAuthSecureResponse>
+    {
+        public virtual string Name { get; set; }
+    }
+
+    public partial class HelloAuthSecureResponse
+    {
+        public virtual string Result { get; set; }
+    }
+
+    public partial class HelloOneWay
+        : IReturnVoid
+    {
+        public virtual string Name { get; set; }
+    }
+
+    public partial class HelloSecure
+        : IReturn<HelloSecureResponse>
+    {
+        public virtual string Name { get; set; }
+    }
+
+    public partial class HelloSecureResponse
+    {
+        public virtual string Result { get; set; }
+    }
+
+    public partial class LargeMessage
+        : IReturn<LargeMessage>
+    {
+        public LargeMessage()
+        {
+            Messages = new List<HelloSecure>{};
+        }
+
+        public virtual List<HelloSecure> Messages { get; set; }
+    }
 
     [Route("/echo/collections")]
     public partial class EchoCollections

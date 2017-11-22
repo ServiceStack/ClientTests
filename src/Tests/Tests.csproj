@@ -22,6 +22,7 @@
     <Reference Include="..\..\lib\net45\ServiceStack.Text.dll" />
     <Reference Include="..\..\lib\net45\ServiceStack.Interfaces.dll" />
     <Reference Include="..\..\lib\net45\ServiceStack.Client.dll" />
+    <Reference Include="..\..\lib\net45\ServiceStack.HttpClient.dll" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
@@ -32,6 +33,7 @@
     <Reference Include="..\..\lib\netstandard2.0\ServiceStack.Text.dll" />
     <Reference Include="..\..\lib\netstandard2.0\ServiceStack.Interfaces.dll" />
     <Reference Include="..\..\lib\netstandard2.0\ServiceStack.Client.dll" />
+    <Reference Include="..\..\lib\netstandard2.0\ServiceStack.HttpClient.dll" />
   </ItemGroup>
 
 </Project>

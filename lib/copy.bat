@@ -10,3 +10,6 @@ COPY ..\..\ServiceStack\src\ServiceStack.Interfaces\bin\%BUILD%\netstandard2.0\S
 COPY ..\..\ServiceStack\src\ServiceStack.Client\bin\%BUILD%\net45\ServiceStack.Client.* net45
 COPY ..\..\ServiceStack\src\ServiceStack.Client\bin\%BUILD%\netstandard2.0\ServiceStack.Client.* netstandard2.0
 
+COPY ..\..\ServiceStack\src\ServiceStack.HttpClient\bin\%BUILD%\net45\ServiceStack.HttpClient.* net45
+COPY ..\..\ServiceStack\src\ServiceStack.HttpClient\bin\%BUILD%\netstandard2.0\ServiceStack.HttpClient.* netstandard2.0
+

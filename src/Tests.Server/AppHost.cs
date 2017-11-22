@@ -13,12 +13,8 @@ namespace Tests
 {
     public class AppHost : AppHostBase
     {
-        public AppHost() : base("Client Tests Server", typeof(HelloService).Assembly)
-        {
-            AppSettings = new MultiAppSettings(
-                new EnvironmentVariableSettings(),
-                new AppSettings());
-        }
+        public AppHost() : base("Client Tests Server", typeof(HelloService).Assembly) {
+}
 
         public override void Configure(Container container)
         {
@@ -49,6 +45,14 @@ namespace Tests
                     new BasicAuthProvider(AppSettings),
                     new CredentialsAuthProvider(AppSettings),
                 }));
+
+            Plugins.Add(new EncryptedMessagesFeature
+            {
+                PrivateKeyXml = AppSettings.GetString("PrivateKeyXml"),
+                FallbackPrivateKeys = {
+                    AppSettings.GetString("FallbackPrivateKeyXml").ToPrivateRSAParameters()
+                },
+            });
 
             Plugins.Add(new ValidationFeature());
             Plugins.Add(new AutoQueryFeature {
