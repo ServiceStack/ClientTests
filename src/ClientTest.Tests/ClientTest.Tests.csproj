@@ -6,9 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="NUnit" Version="3.9.0" />
+    <PackageReference Include="Microsoft.Extensions.Primitives" Version="2.0.0" />
     <Reference Include="..\..\lib\netstandard2.0\ServiceStack.Text.dll" />
     <Reference Include="..\..\lib\netstandard2.0\ServiceStack.Interfaces.dll" />
     <Reference Include="..\..\lib\netstandard2.0\ServiceStack.Client.dll" />
+    <Reference Include="..\..\lib\netstandard2.0\ServiceStack.HttpClient.dll" />
   </ItemGroup>
 
 </Project>
